@@ -140,4 +140,10 @@ public class FlowStructures {
         System.out.println("Array: " + Arrays.toString(arrayInt));
 
     }
+
+    //Recursive function
+    public static Integer plusOneTo(Integer number, Integer target) {
+        System.out.println("Adding " + number + " to " + target);
+        return (Objects.equals(number, target)) ? number : plusOneTo(number + 1, target);
+    }
 }
