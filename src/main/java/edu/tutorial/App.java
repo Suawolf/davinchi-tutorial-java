@@ -1,5 +1,10 @@
 package edu.tutorial;
 
+import edu.tutorial.files.FileService;
+
+import java.io.IOException;
+import java.util.List;
+
 /**
  * Hello world!
  *
@@ -7,7 +12,6 @@ package edu.tutorial;
 public class App {
     //Main method cleaned up to avoid warnings
     static void main() {
-
 //        flowStructures();
 
 //        Integer number = plusOneTo(1, 5);
@@ -46,5 +50,28 @@ public class App {
         String name = annotation.name();
         System.out.println("Email: " + email);
         System.out.println("Name: " + name);
+
+        //Video 10
+
+        FileService fileService = new FileService();
+
+        try {
+            fileService.readAllLines();
+        } catch (IOException e) {
+            System.out.println("Error reading file");
+        }
+
+        try {
+            fileService.writeAllLines(List.of("Line 1", "Line 2", "Line 3"));
+        } catch (IOException e) {
+            System.out.println("Error writing file");
+        }
+
+        try {
+            fileService.listFiles();
+        } catch (IOException e) {
+            System.out.println("Error listing files");
+        }
+
     }
 }
