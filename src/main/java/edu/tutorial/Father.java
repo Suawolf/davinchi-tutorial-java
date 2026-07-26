@@ -2,11 +2,13 @@ package edu.tutorial;
 
 import java.util.Objects;
 
-public class Father {
+@InfoAuthor(name = "Suawolf", email = "suawolf@email.com")
+public class Father extends Human {
     private String name;
 
     public Father(String name) {
         this.name = name;
+        this.gender = GenderType.MALE;
     }
 
     //In Spring, you can save this boilerplate by using @Data
@@ -31,7 +33,8 @@ public class Father {
     }
 
     //MUST BE toString, but modified to see the difference
-    public String prettyPrint() {
+    @Override
+    public String toString() {
         return "Father{" +
                 "name='" + name + '\'' +
                 '}';
