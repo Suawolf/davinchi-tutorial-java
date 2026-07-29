@@ -67,11 +67,17 @@ public class App {
             System.out.println("Error writing file");
         }
 
-        try {
-            fileService.listFiles();
-        } catch (IOException e) {
-            System.out.println("Error listing files");
-        }
+
+        fileService.listFiles();
+
+        fileService.writeAllLinesWithBuffer(List.of("Line 4", "Line 5", "Line 6"));
+        fileService.readAllLinesWithBuffer();
+
+//        try {
+//            fileService.deleteFile();
+//        } catch (IOException e) {
+//            System.out.println("Error deleting file");
+//        }
 
     }
 }
