@@ -1,5 +1,6 @@
 package edu.tutorial;
 
+import edu.tutorial.classes.Post;
 import edu.tutorial.services.DateService;
 import edu.tutorial.services.FileService;
 import edu.tutorial.services.HttpService;
@@ -119,12 +120,22 @@ public class App {
         System.out.println(ChronoUnit.DAYS.between(LocalDate.now(), LocalDate.now().plusYears(1)));
 
 
-        //Video 15
+        //Video 15 & 16
 
         HttpService httpService = new HttpService();
-        httpService.get("https://jsonplaceholder.typicode.com/posts/1");
-        httpService.post("https://jsonplaceholder.typicode.com/posts/");
-        httpService.delete("https://jsonplaceholder.typicode.com/posts/1");
+
+        Post getPost = httpService.get("https://jsonplaceholder.typicode.com/posts/1", Post.class);
+        System.out.println("GET: " + getPost);
+
+        Post request = new Post(null, 1, "Java Course", "Vini, Vid, Vici");
+        Post postPost = httpService.post("https://jsonplaceholder.typicode.com/posts/", request, Post.class);
+        System.out.println("POST: " + postPost);
+
+        Post deletePost = httpService.delete("https://jsonplaceholder.typicode.com/posts/1", Post.class);
+        System.out.println("DELETE: " + deletePost);
+
         httpService.put("https://jsonplaceholder.typicode.com/posts/1");
+
+
     }
 }
