@@ -1,9 +1,17 @@
 package edu.tutorial;
 
-import edu.tutorial.files.FileService;
+import edu.tutorial.services.DateService;
+import edu.tutorial.services.FileService;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Hello world!
@@ -67,12 +75,14 @@ public class App {
             System.out.println("Error writing file");
         }
 
+        //Video 11
 
         fileService.listFiles();
 
         fileService.writeAllLinesWithBuffer(List.of("Line 4", "Line 5", "Line 6"));
         fileService.readAllLinesWithBuffer();
 
+        //Video 12
         fileService.encrypt();
         try {
             fileService.deleteFile();
@@ -80,8 +90,33 @@ public class App {
             System.out.println("Error deleting file");
         }
 
-
         fileService.decrypt();
+
+        //Video 13
+
+        DateService dateService = new DateService();
+        dateService.getCurrentDate();
+        dateService.getSpecificDate("2026/08/08");
+
+        System.out.println(LocalDateTime.now());
+        System.out.println(LocalDateTime.now(ZoneId.of("Europe/Madrid")));
+        System.out.println(LocalDateTime.now(ZoneId.of("America/Mexico_City")));
+
+        System.out.println(LocalDate.of(2025, 8, 7));
+        System.out.println(LocalDate.parse("2015-09-18"));
+        dateService.getDateParsed("09/01/2023", "dd/MM/yyyy");
+
+        System.out.println(LocalDate.now().plusDays(1));
+        System.out.println(LocalDate.now().getMonth());
+        System.out.println(LocalDate.now().getMonthValue());
+        System.out.println(LocalDate.now().getYear());
+        System.out.println(LocalDate.now().getDayOfMonth());
+        System.out.println(LocalDate.now().getDayOfYear());
+        System.out.println(LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()));
+        Period period = LocalDate.now().until(LocalDate.now().plusYears(1));
+        System.out.println(period);
+        System.out.println(ChronoUnit.DAYS.between(LocalDate.now(), LocalDate.now().plusYears(1)));
+
 
     }
 }
