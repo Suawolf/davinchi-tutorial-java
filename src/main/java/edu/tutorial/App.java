@@ -2,6 +2,7 @@ package edu.tutorial;
 
 import edu.tutorial.services.DateService;
 import edu.tutorial.services.FileService;
+import edu.tutorial.services.HttpService;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -118,5 +119,12 @@ public class App {
         System.out.println(ChronoUnit.DAYS.between(LocalDate.now(), LocalDate.now().plusYears(1)));
 
 
+        //Video 15
+
+        HttpService httpService = new HttpService();
+        httpService.get("https://jsonplaceholder.typicode.com/posts/1");
+        httpService.post("https://jsonplaceholder.typicode.com/posts/");
+        httpService.delete("https://jsonplaceholder.typicode.com/posts/1");
+        httpService.put("https://jsonplaceholder.typicode.com/posts/1");
     }
 }
