@@ -1,5 +1,6 @@
 package edu.tutorial;
 
+import edu.tutorial.classes.Person;
 import edu.tutorial.classes.Post;
 import edu.tutorial.services.DateService;
 import edu.tutorial.services.FileService;
@@ -14,6 +15,9 @@ import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Hello world!
@@ -135,6 +139,58 @@ public class App {
         System.out.println("DELETE: " + deletePost);
 
         httpService.put("https://jsonplaceholder.typicode.com/posts/1");
+
+        //Video 17 & 18
+
+        List<Integer> integers = List.of(1, 2, 3, 4, 5, 5);
+        List<Person> people = List.of(new Person(List.of("123456789", "1234567890"), 21L), new Person(List.of("123", "1234"), 21L));
+
+        double total = integers.stream()
+                .mapToInt(Integer::intValue)
+                .average()
+                .getAsDouble();
+
+        System.out.println("Average value: " + total);
+
+        int max = integers.stream()
+                .mapToInt(Integer::intValue)
+                .max()
+                .getAsInt();
+
+        System.out.println("Max value: " + max);
+
+        int min = integers.stream()
+                .mapToInt(Integer::intValue)
+                .min()
+                .getAsInt();
+
+        System.out.println("Min value: " + min);
+
+        long count = integers.stream()
+//                .mapToInt(Integer::intValue)
+                .count();
+
+        System.out.println("Count value: " + count);
+
+        boolean anyMatch = integers.stream()
+                .anyMatch(integer -> integer > 4);
+
+        System.out.println("Any match: " + anyMatch);
+
+        boolean allMatch = integers.stream()
+                .allMatch(integer -> integer > 4);
+
+        System.out.println("All match: " + allMatch);
+
+        Map<Integer, Long> countByItem = integers.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        System.out.println("Count by item: " + countByItem);
+
+        Map<Long, List<Person>> peopleResult = people.stream()
+                .collect(Collectors.groupingBy(Person::getAge));
+
+        System.out.println("People result: " + peopleResult);
 
 
     }
