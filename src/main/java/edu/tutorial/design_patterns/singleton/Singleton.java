@@ -1,4 +1,4 @@
-package edu.tutorial.design_patterns;
+package edu.tutorial.design_patterns.singleton;
 
 public final class Singleton {
 

@@ -2,13 +2,13 @@ package edu.tutorial.classes;
 
 import java.util.List;
 
-public class Person {
+public class Contact {
 
     List<String> phones;
     Long age;
     String name;
 
-    public Person(List<String> phones, Long age) {
+    public Contact(List<String> phones, Long age) {
         this.phones = phones;
         this.age = age;
         this.name = "John Doe " + age;

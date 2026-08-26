@@ -1,8 +1,9 @@
 package edu.tutorial;
 
-import edu.tutorial.classes.Person;
+import edu.tutorial.classes.Contact;
 import edu.tutorial.classes.Post;
-import edu.tutorial.design_patterns.Singleton;
+import edu.tutorial.design_patterns.builder.Person;
+import edu.tutorial.design_patterns.singleton.Singleton;
 import edu.tutorial.services.DateService;
 import edu.tutorial.services.FileService;
 import edu.tutorial.services.HttpService;
@@ -145,17 +146,17 @@ public class App {
         //Video 17 & 18
 
         List<Integer> integers = List.of(1, 2, 3, 4, 5, 5);
-        List<Person> people = List.of(
-                new Person(List.of("7491028365", "4821"), 34L),
-                new Person(List.of("1092837465", "8319"), 34L),
-                new Person(List.of("5820193847", "1042"), 15L),
-                new Person(List.of("9382017456", "9284"), 18L),
-                new Person(List.of("3847102956", "3175"), 45L),
-                new Person(List.of("6201948375", "5019"), 45L),
-                new Person(List.of("8102938475", "7483"), 18L),
-                new Person(List.of("2938471056", "2910"), 18L),
-                new Person(List.of("4019283746", "6381"), 45L),
-                new Person(List.of("5920183749", "4028"), 45L)
+        List<Contact> people = List.of(
+                new Contact(List.of("7491028365", "4821"), 34L),
+                new Contact(List.of("1092837465", "8319"), 34L),
+                new Contact(List.of("5820193847", "1042"), 15L),
+                new Contact(List.of("9382017456", "9284"), 18L),
+                new Contact(List.of("3847102956", "3175"), 45L),
+                new Contact(List.of("6201948375", "5019"), 45L),
+                new Contact(List.of("8102938475", "7483"), 18L),
+                new Contact(List.of("2938471056", "2910"), 18L),
+                new Contact(List.of("4019283746", "6381"), 45L),
+                new Contact(List.of("5920183749", "4028"), 45L)
         );
         double total = integers.stream()
                 .mapToInt(Integer::intValue)
@@ -199,16 +200,16 @@ public class App {
 
         System.out.println("Count by item: " + countByItem);
 
-        Map<Long, List<Person>> peopleResult = people.stream()
-                .collect(Collectors.groupingBy(Person::getAge));
+        Map<Long, List<Contact>> peopleResult = people.stream()
+                .collect(Collectors.groupingBy(Contact::getAge));
 
         System.out.println("People result: " + peopleResult);
 
-        Optional<Person> person = people.stream()
+        Optional<Contact> person = people.stream()
                 .filter(p -> p.getAge() > 18)
                 .findFirst();
 
-        Person firstAdult;
+        Contact firstAdult;
         if (person.isEmpty()) {
             throw new RuntimeException("Person is empty");
         }
@@ -237,13 +238,13 @@ public class App {
                 .map(Map.Entry::getKey)
                 .forEach(System.out::println);
 
-        Map<Long, List<Person>> collectByAge = people.stream()
-                .collect(Collectors.groupingBy(Person::getAge));
+        Map<Long, List<Contact>> collectByAge = people.stream()
+                .collect(Collectors.groupingBy(Contact::getAge));
 
         System.out.println("People collect by age: " + collectByAge);
 
         Map<Long, Long> countByAge = people.stream()
-                .collect(Collectors.groupingBy(Person::getAge, Collectors.counting()));
+                .collect(Collectors.groupingBy(Contact::getAge, Collectors.counting()));
 
         System.out.println("People count by age: " + countByAge);
 
@@ -316,6 +317,18 @@ public class App {
 
         System.out.println("Singleton 1: " + instance1);
         System.out.println("Singleton 2: " + instance2);
+
+        Person person1 = new Person.PersonBuilder()
+                .setName("John")
+                .setAge(25)
+                .setCountry("USA")
+                .setCity("Washington")
+                .setEmail("john@email.com")
+                .setPassword("password")
+                .setState("DC")
+                .build();
+
+        System.out.println("Person 1: " + person1);
 
         //Structural
 
