@@ -11,6 +11,7 @@ public class Person {
     public Person(List<String> phones, Long age) {
         this.phones = phones;
         this.age = age;
+        this.name = "John Doe " + age;
     }
 
     public List<String> getPhones() {
@@ -36,4 +37,11 @@ public class Person {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+//        return "Person{ name=" + name + "phones=" + phones + ", age=" + age + '}';
+        return "Person{" + name + '}';
+    }
+
 }

@@ -16,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -143,8 +144,18 @@ public class App {
         //Video 17 & 18
 
         List<Integer> integers = List.of(1, 2, 3, 4, 5, 5);
-        List<Person> people = List.of(new Person(List.of("123456789", "1234567890"), 21L), new Person(List.of("123", "1234"), 21L));
-
+        List<Person> people = List.of(
+                new Person(List.of("7491028365", "4821"), 34L),
+                new Person(List.of("1092837465", "8319"), 34L),
+                new Person(List.of("5820193847", "1042"), 15L),
+                new Person(List.of("9382017456", "9284"), 18L),
+                new Person(List.of("3847102956", "3175"), 45L),
+                new Person(List.of("6201948375", "5019"), 45L),
+                new Person(List.of("8102938475", "7483"), 18L),
+                new Person(List.of("2938471056", "2910"), 18L),
+                new Person(List.of("4019283746", "6381"), 45L),
+                new Person(List.of("5920183749", "4028"), 45L)
+        );
         double total = integers.stream()
                 .mapToInt(Integer::intValue)
                 .average()
@@ -191,6 +202,111 @@ public class App {
                 .collect(Collectors.groupingBy(Person::getAge));
 
         System.out.println("People result: " + peopleResult);
+
+        Optional<Person> person = people.stream()
+                .filter(p -> p.getAge() > 18)
+                .findFirst();
+
+        Person firstAdult;
+        if (person.isEmpty()) {
+            throw new RuntimeException("Person is empty");
+        }
+
+
+        if (person.isPresent()) {
+            firstAdult = person.get();
+        } else {
+            throw new RuntimeException("Person not found");
+        }
+
+
+        System.out.println("Person: " + firstAdult);
+
+        System.out.println("EntrySet by item");
+        countByItem.entrySet().stream().forEach(System.out::println);
+
+        System.out.print("EntrySet by count: ");
+        countByItem.entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .forEach(System.out::println);
+
+        System.out.print("EntrySet by entry: ");
+        countByItem.entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .map(Map.Entry::getKey)
+                .forEach(System.out::println);
+
+        Map<Long, List<Person>> collectByAge = people.stream()
+                .collect(Collectors.groupingBy(Person::getAge));
+
+        System.out.println("People collect by age: " + collectByAge);
+
+        Map<Long, Long> countByAge = people.stream()
+                .collect(Collectors.groupingBy(Person::getAge, Collectors.counting()));
+
+        System.out.println("People count by age: " + countByAge);
+
+        countByAge.entrySet().forEach(System.out::println);
+
+        System.out.println("Only duplicates: ");
+        countByAge.entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .sorted(Map.Entry.comparingByValue())
+                .forEach(System.out::println);
+
+        System.out.println("Now sorted by higher: ");
+        countByAge.entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .sorted(Map.Entry.<Long, Long>comparingByValue().reversed())
+                .forEach(System.out::println);
+
+        System.out.println("Sorted by age: ");
+        countByAge.entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(System.out::println);
+
+        System.out.println("Sorted by age reversed: ");
+        countByAge.entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .sorted(Map.Entry.<Long, Long>comparingByKey().reversed())
+                .forEach(System.out::println);
+
+        System.out.println("Let's try parallel: ");
+        people.stream().parallel().forEach(System.out::println);
+        System.out.println("Same but shorter: ");
+        people.parallelStream().forEach(System.out::println);
+
+        System.out.println("Sorted by age reversed parallel: ");
+        countByAge.entrySet().stream()
+                .parallel()
+                .filter(entry -> entry.getValue() > 1)
+//                .sorted(Map.Entry.<Long, Long>comparingByKey().reversed()) // This for reversed
+                .forEachOrdered(System.out::println); //This for ordered
+
+        System.out.println("Getting integer only once: ");
+
+        List<Integer> singleIntegers = integers.stream().parallel()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .keySet().stream()
+                .toList();
+
+        System.out.println("List of integers once: " + singleIntegers);
+
+        List<Integer> countIntegers = integers.stream().parallel()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .values().stream()
+                .map(Long::intValue)
+                .toList();
+
+        System.out.println("List of counts in integers converted from Long: " + countIntegers);
+
+        singleIntegers.parallelStream()
+                .map(integer -> {
+                    String url = "https://jsonplaceholder.typicode.com/posts/" + integer;
+                    return httpService.get(url, Post.class);
+                })
+                .forEach(System.out::println);
 
 
     }
