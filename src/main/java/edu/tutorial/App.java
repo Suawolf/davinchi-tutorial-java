@@ -2,6 +2,7 @@ package edu.tutorial;
 
 import edu.tutorial.classes.Person;
 import edu.tutorial.classes.Post;
+import edu.tutorial.design_patterns.Singleton;
 import edu.tutorial.services.DateService;
 import edu.tutorial.services.FileService;
 import edu.tutorial.services.HttpService;
@@ -307,6 +308,19 @@ public class App {
                     return httpService.get(url, Post.class);
                 })
                 .forEach(System.out::println);
+
+        //Design Patterns
+        //Creational
+        Singleton instance1 = Singleton.getInstance("1");
+        Singleton instance2 = Singleton.getInstance("2");
+
+        System.out.println("Singleton 1: " + instance1);
+        System.out.println("Singleton 2: " + instance2);
+
+        //Structural
+
+
+        //Behavioral
 
 
     }
