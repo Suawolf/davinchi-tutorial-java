@@ -4,6 +4,11 @@ import edu.tutorial.classes.Contact;
 import edu.tutorial.classes.Post;
 import edu.tutorial.design_patterns.builder.Person;
 import edu.tutorial.design_patterns.singleton.Singleton;
+import edu.tutorial.design_patterns.strategy.PaymentInterface;
+import edu.tutorial.design_patterns.strategy.PaymentType;
+import edu.tutorial.design_patterns.strategy.strategies.AmexPaymentStrategy;
+import edu.tutorial.design_patterns.strategy.strategies.MastercardPaymentStrategy;
+import edu.tutorial.design_patterns.strategy.strategies.VisaPaymentStrategy;
 import edu.tutorial.services.DateService;
 import edu.tutorial.services.FileService;
 import edu.tutorial.services.HttpService;
@@ -334,6 +339,19 @@ public class App {
 
 
         //Behavioral
+        List<PaymentInterface> paymentTypes = List.of(new VisaPaymentStrategy(), new MastercardPaymentStrategy(), new AmexPaymentStrategy());
+        Map<PaymentType, PaymentInterface> collect = paymentTypes.stream()
+                .collect(Collectors.toMap(PaymentInterface::getPaymentType, Function.identity()));
+
+        PaymentType paymentType = PaymentType.MASTERCARD;
+
+        PaymentInterface paymentInterface = collect.get(paymentType);
+
+        if (paymentInterface == null) {
+            throw new RuntimeException("Payment type not found");
+        }
+
+        paymentInterface.paid();
 
 
     }
