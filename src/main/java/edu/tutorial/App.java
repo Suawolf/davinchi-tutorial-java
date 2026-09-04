@@ -316,13 +316,16 @@ public class App {
                 .forEach(System.out::println);
 
         //Design Patterns
-        //Creational
+        //--Creational
+
+        //Singleton
         Singleton instance1 = Singleton.getInstance("1");
         Singleton instance2 = Singleton.getInstance("2");
 
         System.out.println("Singleton 1: " + instance1);
         System.out.println("Singleton 2: " + instance2);
 
+        //Builder
         Person person1 = new Person.PersonBuilder()
                 .setName("John")
                 .setAge(25)
@@ -335,10 +338,14 @@ public class App {
 
         System.out.println("Person 1: " + person1);
 
-        //Structural
+        //--Structural
+
+        //Observer
 
 
-        //Behavioral
+        //--Behavioral
+
+        //Strategy
         List<PaymentInterface> paymentTypes = List.of(new VisaPaymentStrategy(), new MastercardPaymentStrategy(), new AmexPaymentStrategy());
         Map<PaymentType, PaymentInterface> collect = paymentTypes.stream()
                 .collect(Collectors.toMap(PaymentInterface::getPaymentType, Function.identity()));

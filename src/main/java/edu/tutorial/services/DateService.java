@@ -7,9 +7,9 @@ import java.util.Date;
 public class DateService {
 
     //    @Deprecated
-    public void getCurrentDate() {
+    public Date getCurrentDate() {
         Date currentDate = new Date();
-        System.out.println("Current date is: " + currentDate);
+        return currentDate;
     }
 
     //    @Deprecated
@@ -18,9 +18,8 @@ public class DateService {
         System.out.println("Specific date is: " + aDate);
     }
 
-    public void getDateParsed(String date, String format) {
-        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(format));
-        System.out.println("Date parsed is: " + localDate);
+    public LocalDate getDateParsed(String date, String format) {
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern(format));
     }
 
 }
