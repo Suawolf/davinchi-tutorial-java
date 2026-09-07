@@ -9,6 +9,9 @@ import edu.tutorial.design_patterns.strategy.PaymentType;
 import edu.tutorial.design_patterns.strategy.strategies.AmexPaymentStrategy;
 import edu.tutorial.design_patterns.strategy.strategies.MastercardPaymentStrategy;
 import edu.tutorial.design_patterns.strategy.strategies.VisaPaymentStrategy;
+import edu.tutorial.options.OptionInterface;
+import edu.tutorial.options.OptionType;
+import edu.tutorial.options.strategies.*;
 import edu.tutorial.services.DateService;
 import edu.tutorial.services.FileService;
 import edu.tutorial.services.HttpService;
@@ -20,10 +23,7 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -33,6 +33,9 @@ import java.util.stream.Collectors;
  */
 public class App {
     //Main method cleaned up to avoid warnings
+
+    public static final String FILE_PATH = "src/main/resources/posts.json";
+
     static void main() {
 //        flowStructures();
 
@@ -359,6 +362,39 @@ public class App {
         }
 
         paymentInterface.paid();
+
+        //Video 26
+
+        List<OptionInterface> strategyOptions = List.of(new AddPostStrategy(),
+                new DeletePostStrategy(),
+                new GetAllPostStrategy(),
+                new UpdatePostStrategy(),
+                new ExitStrategy());
+
+        Map<OptionType, OptionInterface> strategyOptionMap = strategyOptions.stream()
+                .collect(Collectors.toMap(OptionInterface::getOptionType, Function.identity()));
+
+        Scanner scanner = new Scanner(System.in);
+
+        int option = 1;
+
+        while (option != 0) {
+            System.out.println("Choose an option:");
+            strategyOptions.stream()
+                    .sorted(Comparator.comparingInt(value -> value.getOptionType().getValue()))
+                    .forEach(optionInterface -> System.out.println(optionInterface.getMessage()));
+
+            option = scanner.nextInt();
+            scanner.nextLine();
+
+            OptionType optionType = OptionType.getOptionType(option);
+
+            OptionInterface selectedOptionInterface = strategyOptionMap.get(optionType);
+
+            if (selectedOptionInterface != null) {
+                selectedOptionInterface.execute(scanner);
+            }
+        }
 
 
     }
